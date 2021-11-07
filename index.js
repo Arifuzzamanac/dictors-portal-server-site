@@ -9,7 +9,7 @@ const port = process.env.PORT || 9000;
 
 // middleware
 app.use(cors());
-// app.use()
+app.use(express.json())
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.n6yc8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -17,7 +17,12 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect();
-        console.log('connencted to the server successfully');
+        const database = client.db('doctorer-ghor');
+        const appoinmentsCollection = database.collection('appoinments')
+
+        app.post('/appoinments', async(req, res)=>{
+            
+        })
     }
     finally {
         // await client.close();
@@ -32,4 +37,11 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
     console.log(`listening at ${port}`)
-})
+});
+
+
+// app.get('/users')
+// app.post('/users')
+// app.get('users/:id')
+// app.delete('/users/:id')
+// app.put('/users/:id')
