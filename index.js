@@ -20,8 +20,11 @@ async function run() {
         const database = client.db('doctorer-ghor');
         const appoinmentsCollection = database.collection('appoinments')
 
-        app.post('/appoinments', async(req, res)=>{
-            
+        app.post('/appoinments', async (req, res) => {
+            const appoinment = req.body;
+            const result = await appoinmentsCollection.insertOne(appoinment)
+            console.log(result);
+            res.json(result)
         })
     }
     finally {
