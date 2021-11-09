@@ -20,10 +20,22 @@ async function run() {
         const database = client.db('doctorer-ghor');
         const appoinmentsCollection = database.collection('appoinments')
 
+        // get post
+        app.get('/appoinments', async (req, res) => {
+            const email = req.query.email;
+            const date = req.query.date;
+
+            const query = { email: email, date: date }
+            console.log(query)
+            const cursor = appoinmentsCollection.find(query);
+            const appointments = await cursor.toArray();
+            res.json(appointments)
+        })
+
+        // set post
         app.post('/appoinments', async (req, res) => {
             const appoinment = req.body;
             const result = await appoinmentsCollection.insertOne(appoinment)
-            console.log(result);
             res.json(result)
         })
     }
